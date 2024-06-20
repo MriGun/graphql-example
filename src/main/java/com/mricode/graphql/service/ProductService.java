@@ -23,4 +23,28 @@ public class ProductService {
     public List<Product> getProductsByCategory(String category){
         return productRepo.findByCategory(category);
     }
+
+    //sales team update the stock of a product
+    public Product updateStock(int id, int stock) {
+
+        Product product = productRepo.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Product not found with ID " + id));
+
+
+        product.setStock(stock);
+
+        return productRepo.save(product);
+    }
+
+    //warehouse : recieve new shipment
+    public Product recieveNewShipment(int id, int quantity) {
+
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with ID " + id));
+
+
+        product.setStock(product.getStock() + quantity);
+
+        return productRepo.save(product);
+    }
 }
